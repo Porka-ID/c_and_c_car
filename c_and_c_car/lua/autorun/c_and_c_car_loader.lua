@@ -16,13 +16,16 @@ local function loadFolder( path )
         if SERVER then
             if string.find( v, "cl_") or string.find(v, "sh_" ) then
                 AddCSLuaFile( path .. v )
+                print( "[SERVER] Enregistrement de : " .. path .. v)
             end
 
             if string.find( v, "sv_" ) or string.find( v, "sh_" ) then
                 include( path .. v )
+                print( " [SERVER - CLIENT] Enregistrement de : " .. path .. v)
             end
         else
             include( path .. v )
+            print( "[CLIENT] Enregistrement de : " .. path .. v )
         end
     end
 
@@ -45,3 +48,5 @@ loadNetworking()
 loadFolder("c_and_c/client/")
 loadFolder("c_and_c/server/")
 loadFolder("c_and_c/shared/")
+loadFolder("c_and_c/config/")
+loadFolder("c_and_c/tests/")

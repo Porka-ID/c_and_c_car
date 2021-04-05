@@ -5,7 +5,7 @@ include( 'shared.lua' )
 
 function ENT:Initialize()
 
-	self:SetModel( "models/props_borealis/bluebarrel001.mdl" )
+	self:SetModel( "models/humans/group02/female_06.mdl" )
 	self:SetSolid( SOLID_BBOX )
 	self:SetUseType(SIMPLE_USE)
 	self:DropToFloor()
@@ -20,7 +20,7 @@ end
 function ENT:Use(ply)
 	if not IsValid(ply) then return end 
 
-	if ply:IsPlayer() and self:GetPos():DistToSqr(ply:GetPos()) < 12000 then 
+	if ply:IsPlayer() and self:GetPos():DistToSqr(ply:GetPos()) < 50*500 then 
 		c_and_c:SendNet(c_and_c.func_config.MainMenu, _, ply)
 	end 
 end 
