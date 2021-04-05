@@ -6,14 +6,10 @@
 
 util.AddNetworkString("CandC::SendingNet::NetworKing")
 
-hook.Add("PlayerSay", "PlayerSay::SendNet", function(ply, text)
+net.Receive('CandC::SendingNet::NetworKing', function(len, ply)
 
-	if not IsValid(ply) then return end
+	local id = net.ReadUInt(12)
 
-	if string.upper(text) == "/NET" then 
-		 c_and_c:SendNet(c_and_c.func_config.MainMenu, function()
-		 		net.WriteString("try?")
-		 end, ply)
-	end  
 
-end)
+	c_and_c.func[id](len, ply)
+end )

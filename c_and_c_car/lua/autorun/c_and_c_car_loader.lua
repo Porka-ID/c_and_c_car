@@ -3,6 +3,7 @@ c_and_c = c_and_c or {}
 c_and_c.func_config = c_and_c.func_config or {}
 
 c_and_c.func_config.MainMenu = 1 
+c_and_c.func_config.buyVehicle = 2 
 
 print("FICHIER C_AND_C_LOADER.LUA")
 

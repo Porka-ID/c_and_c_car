@@ -6,7 +6,7 @@ function c_and_c:SendNet(id, func, target)
 	if not id or not isnumber(id) then print(" ID NON VALIDE ! ")  return end 
 
 	net.Start("CandC::SendingNet::NetworKing")
-	net.WriteUInt(id, 8)
+	net.WriteUInt(id, 12)
 	if isfunction(func) then 
 		func()
 	end 
