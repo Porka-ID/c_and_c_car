@@ -1,10 +1,17 @@
 c_and_c = c_and_c or {}
 
 c_and_c.func_config = c_and_c.func_config or {}
+c_and_c.PANEL = c_and_c.PANEL or {}
+c_and_c.func_config.price_insurance = 2000
 
-c_and_c.func_config.MainMenu = 1 
-c_and_c.func_config.buyVehicle = 2 
-c_and_c.func_config.Insurance = 3
+--[[ ID FUNCTION NET ]]
+c_and_c.func_config.MainMenu           = 1 
+c_and_c.func_config.buyVehicle         = 2 
+c_and_c.func_config.Insurance          = 3
+c_and_c.func_config.InsuranceVehicle   = 4 
+c_and_c.func_config.ConfigurationMenu  = 5
+c_and_c.func_config.SaveVehiculesGroup = 6
+c_and_c.func_config.RemoveVehicle      = 7 
 
 print("FICHIER C_AND_C_LOADER.LUA")
 
@@ -48,6 +55,7 @@ loadNetworking()
 
 loadFolder("c_and_c/config/")
 loadFolder("c_and_c/misc/")
+loadFolder("c_and_c/vgui/")
 loadFolder("c_and_c/client/")
 loadFolder("c_and_c/server/")
 loadFolder("c_and_c/shared/")
