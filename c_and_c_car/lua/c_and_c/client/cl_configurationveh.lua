@@ -2,14 +2,89 @@
 local configPanel = c_and_c.PANEL 
 
 local col_green = Color(0,200,0)
+local CAMIPanel = CAMIPanel or {}
+
+
+local function OutlinedBox( x, y, w, h, thickness, clr )
+
+    surface.SetDrawColor( clr )
+
+    for i=0, thickness - 1 do
+
+        surface.DrawOutlinedRect( x + i, y + i, w - i * 2, h - i * 2 )
+
+    end
+
+end 
+
 
 local config_func = {
 	["Permissions"] = function(group, _)
+		if not LocalPlayer():GetUserGroup() == "superadmin" then return end 
 		configPanel.panel:Clear() 
 		configPanel.bottom:Clear()
+
+		local m = vgui.Create("DScrollPanel", configPanel.panel)
+			m:Dock(FILL)
+			m:GetVBar():SetWide(0)
+
+		for k,v in pairs(CAMI.GetUsergroups() or {}) do	
+			if k ~= "superadmin" then 	 
+				 p = vgui.Create("DButton", m)
+				 p:SetWide(configPanel.panel:GetWide()*0.25)
+				 p:SetTall(configPanel.panel:GetTall()*0.33)
+				 p:Dock(TOP)
+				 p:SetText( string.upper(k) ) 
+				 p:SetTextColor(color_black)
+				 p.DoClick = function(s)
+					m.size = p:GetTall()
+					if s.anim then 
+						s.anim = false 
+					else 
+						s.anim = true 
+					end
+				 	m.lerp = true 
+				 	m.lerpcur = FrameTime()
+				 	if m.child then 
+				 		m.anim = true
+				 		m.check = m.child 
+				 		m.time = m.childcur 
+				    end 
+
+				 	if m.child == k then 
+				 		m.anim = false 
+				 	end 	
+
+				 		m.child = k
+				 		m.childcur = FrameTime() 
+				 end
+				 p.Paint = function(s,w,h)
+				 	OutlinedBox( 0,0, w, h, 1, color_black )
+				 	if m.anim and m.check == k then 
+				 		s.anim = false 
+				 		s:SetTall(Lerp(FrameTime()*3, s:GetTall(), m.size))
+				 		if m.time*3 <= FrameTime() then 
+				 			m.anim = nil  
+				 			m.check = nil   
+				 			m.time = nil 
+				 		end 
+				 	end 
+				 	if m.lerp then 
+				 		if s.anim then 
+				 			s:SetTall(Lerp(FrameTime()*3, s:GetTall(), m.size*2))
+				 		else 
+				 			s:SetTall(Lerp(FrameTime()*3, s:GetTall(), m.size))
+				 		end 
+				 		if m.lerpcur*3 <= FrameTime() then 
+				 			m.lerp = false 
+				 		end 
+				 	end 
+			     end 
+			end 
+		end 
 	end, 
 	["Vehicles"] = function( _, veh)
-		if istable(veh) then PrintTable(veh) end  
+
 		local veh_tbl = table.Copy(list.Get("Vehicles") )
 		for k,v in ipairs(veh) do 
 			if veh_tbl[v.class] then 
@@ -194,18 +269,6 @@ function c_and_c:SetParameter(veh_class, veh)
 		save.Paint = function(s,w,h)
 			draw.RoundedBox(4,0,0,w,h, col_green)
 		end
-
-end 
-
-local function OutlinedBox( x, y, w, h, thickness, clr )
-
-    surface.SetDrawColor( clr )
-
-    for i=0, thickness - 1 do
-
-        surface.DrawOutlinedRect( x + i, y + i, w - i * 2, h - i * 2 )
-
-    end
 
 end 
 
